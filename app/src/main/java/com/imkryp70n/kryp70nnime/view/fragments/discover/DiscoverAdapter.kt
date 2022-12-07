@@ -10,33 +10,28 @@ import com.bumptech.glide.Glide
 import com.imkryp70n.kryp70nnime.R
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
 
-class DiscoverAdapter() : RecyclerView.Adapter<DiscoverAdapter.MViewHolder>() {
+class DiscoverAdapter(private var listData : List<ResultsItem?>) : RecyclerView.Adapter<DiscoverAdapter.MViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
         val view = View.inflate(parent.context, R.layout.item_anime_list, null)
         return MViewHolder(view)
     }
 
     // mutable list
-    private var list = mutableListOf<ResultsItem?>()
-
-    // set data
-    fun setData(data: List<ResultsItem?>) {
-        list.clear()
-        list.addAll(data)
-    }
 
     override fun onBindViewHolder(holder: MViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(listData[position])
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return listData.size
     }
 
     class MViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvAnimeTitle: TextView = view.findViewById(R.id.tvAnimeTitle)
         private val ivAnimeImage: ImageView = view.findViewById(R.id.ivAnimeImage)
         fun bind(animeValue : ResultsItem?) {
+
             tvAnimeTitle.text = animeValue!!.title
             Glide.with(itemView.context)
                 .load(animeValue.image)
@@ -46,7 +41,7 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverAdapter.MViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(data: List<ResultsItem?>) {
-        list.addAll(data)
+        listData = data
         notifyDataSetChanged()
     }
 }
