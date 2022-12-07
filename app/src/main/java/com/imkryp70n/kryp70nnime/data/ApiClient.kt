@@ -1,6 +1,7 @@
 package com.imkryp70n.kryp70nnime.data
 
 import com.imkryp70n.kryp70nnime.model.discovery.DiscoveryModel
+import com.imkryp70n.kryp70nnime.model.trending.TrendingModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -13,7 +14,7 @@ import retrofit2.http.GET
  */
 object ApiClient {
 
-    private const val API_BASE_URL = "https://api.consumet.org/anime/gogoanime/"
+    private const val API_BASE_URL = "https://api.consumet.org/"
 
     private var servicesApiInterface: ServicesApiInterface? = null
 
@@ -41,7 +42,10 @@ object ApiClient {
 
     interface ServicesApiInterface {
 
-        @GET("recent-episodes")
+        @GET("anime/gogoanime/recent-episodes")
         fun discoverAnime(): Call <DiscoveryModel>
+
+        @GET("anime/gogoanime/top-airing")
+        fun topAiringAnime(): Call <TrendingModel>
     }
 }
