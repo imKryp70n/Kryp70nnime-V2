@@ -46,6 +46,9 @@ dependencies {
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.1'
 
+    // HAWK
+    implementation 'com.orhanobut:hawk:2.0.1'
+
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
