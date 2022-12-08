@@ -1,6 +1,7 @@
 package com.imkryp70n.kryp70nnime.data.trending
 
 import com.imkryp70n.kryp70nnime.data.ApiClient
+import com.imkryp70n.kryp70nnime.data.OperationCallback
 import com.imkryp70n.kryp70nnime.model.trending.TrendingDataSource
 import com.imkryp70n.kryp70nnime.model.trending.TrendingModel
 import retrofit2.Call
@@ -9,7 +10,7 @@ import retrofit2.Response
 
 class TrendingRDS (apiClient : ApiClient) : TrendingDataSource {
     private val service = apiClient.build()
-    override fun retrieveTrendingAnime(callback: OCTrending<TrendingModel>) {
+    override fun retrieveTrendingAnime(callback: OperationCallback.OCTrending<TrendingModel>) {
         service?.topAiringAnime()?.enqueue(object : Callback<TrendingModel>{
             override fun onResponse(call: Call<TrendingModel>, response: Response<TrendingModel>) {
                 if (response.isSuccessful){
