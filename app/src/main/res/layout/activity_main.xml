@@ -6,28 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".view.Activity.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/animated_bottom_bar"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        </FrameLayout>
 
-    <nl.joery.animatedbottombar.AnimatedBottomBar
-        android:id="@+id/animated_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF"
-        app:abb_indicatorAppearance="round"
-        app:abb_indicatorHeight="4dp"
-        app:abb_indicatorMargin="16dp"
-        app:abb_selectedIndex="0"
-        app:abb_selectedTabType="text"
-        app:abb_tabs="@menu/main_menu"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <nl.joery.animatedbottombar.AnimatedBottomBar
+            android:id="@+id/animated_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorHeight="4dp"
+            app:abb_indicatorMargin="16dp"
+            app:abb_selectedIndex="0"
+            app:abb_selectedTabType="text"
+            app:abb_tabs="@menu/main_menu"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
