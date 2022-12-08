@@ -3,8 +3,8 @@ package com.imkryp70n.kryp70nnime.viewmodel.discover
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.imkryp70n.kryp70nnime.data.discovery.OCDiscover
-import com.imkryp70n.kryp70nnime.data.trending.OCTrending
+import com.imkryp70n.kryp70nnime.data.ApiClient
+import com.imkryp70n.kryp70nnime.data.OperationCallback
 import com.imkryp70n.kryp70nnime.model.discovery.DiscoveryModel
 import com.imkryp70n.kryp70nnime.model.discovery.DiscoveryRepository
 import com.imkryp70n.kryp70nnime.model.trending.TrendingModel
@@ -27,7 +27,7 @@ class DiscoverViewModel(private val repository: DiscoveryRepository , private va
 
 
     fun loadDiscover() {
-        repository.fetchDiscover(object : OCDiscover<DiscoveryModel> {
+        repository.fetchDiscover(object : OperationCallback.OCDiscover<DiscoveryModel> {
 
             override fun onError(error: String?) {
                 _onMessageError.postValue(error)
@@ -58,8 +58,9 @@ class DiscoverViewModel(private val repository: DiscoveryRepository , private va
     private val _isTrendingEmptyList = MutableLiveData<Boolean>()
     val isTrendingEmptyList: LiveData<Boolean> = _isTrendingEmptyList
 
+
     fun loadTrending(){
-        trendingRepository.fetchTrending(object : OCTrending<TrendingModel>{
+        trendingRepository.fetchTrending(object : OperationCallback.OCTrending<TrendingModel> {
             override fun onSuccess(callback: TrendingModel) {
                 if (callback.results!!.isEmpty()){
                     _isTrendingEmptyList.value = true
@@ -74,6 +75,10 @@ class DiscoverViewModel(private val repository: DiscoveryRepository , private va
             }
         })
     }
+
+
+
+
 
     fun cancel() {
         repository.cancel()

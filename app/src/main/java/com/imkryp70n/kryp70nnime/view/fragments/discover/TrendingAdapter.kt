@@ -32,6 +32,7 @@ class TrendingAdapter (private var listData : List<TrendingItem?>) : RecyclerVie
     class MViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvAnimeTitle: TextView = view.findViewById(R.id.tvAnimeTitle)
         private val ivAnimeImage: ImageView = view.findViewById(R.id.ivAnimeImage)
+        private val tvAnimeStatus: TextView = view.findViewById(R.id.tvAnimeStatus)
         fun bind(animeValue : TrendingItem?) {
 
             tvAnimeTitle.text = animeValue!!.title

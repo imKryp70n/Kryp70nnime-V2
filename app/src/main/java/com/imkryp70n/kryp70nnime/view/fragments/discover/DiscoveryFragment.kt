@@ -11,7 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.imkryp70n.kryp70nnime.R
+import com.imkryp70n.kryp70nnime.di.AesteticDialog
 import com.imkryp70n.kryp70nnime.di.Injection
 import com.imkryp70n.kryp70nnime.model.discovery.DiscoveryModel
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
@@ -48,7 +51,6 @@ class DiscoveryFragment : Fragment() {
         rvAnimeList = view.findViewById(R.id.rvAnimeList)
         tvAnimeTrending = view.findViewById(R.id.rvAnimeTrendingList)
 
-
     }
 
     private fun setupViewModel() {
@@ -62,12 +64,14 @@ class DiscoveryFragment : Fragment() {
         viewModel.isViewLoadingTrending.observe(viewLifecycleOwner, isViewLoadingTrendingObserver)
         viewModel.onTrendingMessageError.observe(viewLifecycleOwner, onTrendingErrorObserver as Observer<in Any?>)
         viewModel.isTrendingEmptyList.observe(viewLifecycleOwner, emptyListTrendingObserver)
+
+
     }
 
 
     //observers
     private val renderDiscover = Observer<DiscoveryModel>  {
-        Log.d(TAG, "renderDiscover: $it")
+
         adapterDiscover = DiscoverAdapter(viewModel.discoveries.value!!.results!!)
         // horizontal
         rvAnimeList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -76,11 +80,11 @@ class DiscoveryFragment : Fragment() {
     }
 
     private val isViewLoadingObserver = Observer<Boolean> {
-        Log.d(TAG, "isViewLoadingObserver: $it")
+
     }
 
     private val onMessageErrorObserver = Observer<Any> {
-        Log.d(TAG, "onMessageErrorObserver: $it")
+        AesteticDialog.toasterError(requireContext(), false,5000, "Error", it.toString())
     }
 
     private val emptyListObserver = Observer<Boolean> {
@@ -91,6 +95,8 @@ class DiscoveryFragment : Fragment() {
 
     // Trending Observers
     private val renderTrending = Observer<TrendingModel>  {
+
+
         adapterTrending = TrendingAdapter(viewModel.getTrending.value!!.results!!)
         // Horizontal
         tvAnimeTrending.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -102,7 +108,7 @@ class DiscoveryFragment : Fragment() {
     }
 
     private val onTrendingErrorObserver = Observer<Any> {
-        Log.d(TAG, "onMessageErrorObserver: $it")
+        AesteticDialog.toasterError(requireContext(), false,5000, "Error", it.toString())
     }
 
     private val emptyListTrendingObserver = Observer<Boolean> {

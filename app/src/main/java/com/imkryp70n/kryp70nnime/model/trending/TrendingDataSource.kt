@@ -1,8 +1,8 @@
 package com.imkryp70n.kryp70nnime.model.trending
 
-import com.imkryp70n.kryp70nnime.data.trending.OCTrending
+import com.imkryp70n.kryp70nnime.data.OperationCallback
 
 interface TrendingDataSource {
-    fun retrieveTrendingAnime(callback: OCTrending<TrendingModel>)
+    fun retrieveTrendingAnime(callback: OperationCallback.OCTrending<TrendingModel>)
     fun cancel()
 }

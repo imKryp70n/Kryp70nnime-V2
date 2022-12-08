@@ -3,7 +3,7 @@ package com.imkryp70n.kryp70nnime.viewmodel.trending
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.imkryp70n.kryp70nnime.data.trending.OCTrending
+import com.imkryp70n.kryp70nnime.data.OperationCallback
 import com.imkryp70n.kryp70nnime.model.trending.TrendingModel
 import com.imkryp70n.kryp70nnime.model.trending.TrendingRepository
 
@@ -23,7 +23,7 @@ class TrendingViewModel(private val repository: TrendingRepository) : ViewModel(
 
     fun getTrending() {
         _isViewLoading.postValue(true)
-        repository.fetchTrending(object : OCTrending<TrendingModel>{
+        repository.fetchTrending(object : OperationCallback.OCTrending<TrendingModel> {
             override fun onSuccess(callback: TrendingModel) {
                 _isViewLoading.postValue(false)
                 _getTrending.postValue(callback)
