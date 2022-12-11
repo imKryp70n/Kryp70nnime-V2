@@ -13,4 +13,10 @@ class OperationCallback {
         fun onSuccess(callback: TrendingModel)
         fun onError(error: String?)
     }
+
+    interface OCHistory<T> {
+        fun onSuccess(callback: List<T>)
+        fun onError(error: String?)
+
+    }
 }
