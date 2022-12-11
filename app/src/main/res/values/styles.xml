@@ -13,7 +13,7 @@
         <item name="card">@color/white</item>
         <item name="appbarAttribute">@color/material_blue</item>
 
-        <item name="fontFamily">@font/quicksandbold</item>
+        <item name="fontFamily">@font/poppins_medium</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/material_blue</item>
         <item name="colorSecondaryVariant">@color/material_blue</item>
