@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/drawable/gradient.xml" value="0.1045" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/drawable/rounded_searchbar.xml" value="0.1945" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/fragment_discovery.xml" value="0.33" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/fragment_history.xml" value="0.18" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/fragment_search2.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/layout/item_anime_list.xml" value="0.18" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/menu/main_menu.xml" value="0.33" />
+        <entry key="..\:/Users/AxxelXD/Documents/GitHub/Kryp70nnime-V2/app/src/main/res/xml/root_preferences.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1945" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/fragment_discovery.xml" value="0.17028985507246377" />
