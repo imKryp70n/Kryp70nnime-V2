@@ -1,56 +1,89 @@
 package com.imkryp70n.kryp70nnime.view.fragments.discover
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
+
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
-import com.facebook.shimmer.ShimmerFrameLayout
+
 import com.imkryp70n.kryp70nnime.R
+import com.imkryp70n.kryp70nnime.data.database.Bookmark
+import com.imkryp70n.kryp70nnime.data.database.BookmarkDatabase
+import com.imkryp70n.kryp70nnime.di.AesteticDialog
+import com.imkryp70n.kryp70nnime.di.Injection
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
-import com.zedlabs.pastelplaceholder.Pastel
+import kotlinx.android.synthetic.main.item_anime_list.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class DiscoverAdapter(private var listData : List<ResultsItem?>) : RecyclerView.Adapter<DiscoverAdapter.MViewHolder>() {
+class DiscoverAdapter(private var listData: List<ResultsItem?>) :
+    RecyclerView.Adapter<DiscoverAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
-        val view = View.inflate(parent.context, R.layout.item_anime_list, null)
-        return MViewHolder(view)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_anime_list, parent, false)
+
+        return ViewHolder(v)
     }
 
-    // mutable list
+    override fun getItemCount(): Int = listData.size
 
-    override fun onBindViewHolder(holder: MViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listData[position])
     }
 
-    override fun getItemCount(): Int {
-        return listData.size
-    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    class MViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvAnimeTitle: TextView = view.findViewById(R.id.tvAnimeTitle)
-        private val ivAnimeImage: ImageView = view.findViewById(R.id.ivAnimeImage)
-        private val tvAnimeStatus: TextView = view.findViewById(R.id.tvAnimeStatus)
-        @SuppressLint("ResourceType")
-        fun bind(animeValue : ResultsItem?) {
+        @SuppressLint("ResourceAsColor", "SetTextI18n")
+        fun bind(
+            item: ResultsItem?
+        ) = with(itemView) {
+            tvAnimeTitle.text = item?.title
+            Glide.with(context).load(item?.image).into(ivAnimeImage)
+            ivAnimeImage.setOnClickListener {
+                val title : String = item!!.title.toString()
+                val image : String = item.image.toString()
+                val url : String = item.url.toString()
+                val episodeId : String = item.episodeId.toString()
+                val db = Room.databaseBuilder(context, BookmarkDatabase::class.java, "bookmark").build()
 
-            // shimmer animation
-            tvAnimeTitle.text = animeValue!!.title
-            tvAnimeStatus.text = animeValue.episodeNumber.toString()
-            Glide.with(itemView.context)
-                .load(animeValue.image)
-                .placeholder(Pastel.getColorLight())
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .into(ivAnimeImage)
 
-            // stop shimmer animation
+
+                try {
+                    GlobalScope.launch {
+                        db.bookmarkDao().insertBookmark(
+                            Bookmark(
+                                title,
+                                url,
+                                image,
+                                episodeId
+                            )
+                        )
+                        println(
+                            db.bookmarkDao().getAllBookmark()
+                        )
+                    }
+
+                    AesteticDialog.toasterSuccess(
+                        context,
+                        false,
+                        3000,
+                        "Success",
+                        "Success add to bookmark"
+                    )
+                } catch (e: Exception) {
+                    AesteticDialog.toasterError(context,false,5000,"Error","Failed add to bookmark")
+                }
+
+            }
         }
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(data: List<ResultsItem?>) {
