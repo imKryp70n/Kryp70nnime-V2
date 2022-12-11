@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="KEY_Theme"
+        app:title="Theme">
+
+        <SwitchPreferenceCompat
+            app:key="KEY_NightMode"
+            app:title="Night Mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About Me" app:key="KEY_About">
+        <Preference app:title="Profile" app:key="KEY_Profile"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Issue">
+        <Preference
+            app:key="KEY_Github"
+            app:title="Report Bug" />
+        <Preference
+            app:key="KEY_Facebook"
+            app:title="Feedback" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Donate">
+        <Preference
+            app:key="DANA"
+            app:title="DANA (Indonesian E-Wallet)" />
+        <Preference
+            app:key="COFFEE"
+            app:title="Coffee" />
+        <Preference
+            app:key="Paypal"
+            app:title="PayPal" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
