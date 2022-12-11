@@ -2,6 +2,7 @@ package com.imkryp70n.kryp70nnime.di
 
 import android.app.Activity
 import android.content.Context
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.thecode.aestheticdialogs.AestheticDialog
 import com.thecode.aestheticdialogs.DialogStyle
 import com.thecode.aestheticdialogs.DialogType
@@ -80,6 +81,7 @@ object AesteticDialog {
         title: String,
         message: String
     ): AestheticDialog {
+
         return AestheticDialog.Builder(
             context as Activity,
             DialogStyle.CONNECTIFY,
@@ -92,5 +94,69 @@ object AesteticDialog {
             .setDuration(duration)
             .show()
     }
+
+    fun sweetProgress(
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        return SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE)
+            .setTitleText(title)
+            .setContentText(message)
+            .show()
+    }
+
+    fun sweetSuccess(
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        return SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+            .setTitleText(title)
+            .setContentText(message)
+            .show()
+    }
+
+    fun sweetWarning(
+        context: Context,
+        title: String,
+        message: String,
+        confirmText: String,
+        cancelText: String,
+        confirmListener: SweetAlertDialog.OnSweetClickListener,
+        cancelListener: SweetAlertDialog.OnSweetClickListener
+
+    ) {
+        return SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText(title)
+            .setContentText(message)
+            .setConfirmButton(confirmText, confirmListener)
+            .setCancelButton(cancelText, cancelListener)
+            .show()
+    }
+
+    fun sweetError(
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        return SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+            .setTitleText(title)
+            .setContentText(message)
+            .show()
+    }
+
+
+    fun sweetNormal(
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        return SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+            .setTitleText(title)
+            .setContentText(message)
+            .show()
+    }
+
 
 }
