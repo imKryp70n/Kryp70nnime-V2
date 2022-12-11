@@ -19,10 +19,10 @@
 
         </FrameLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <nl.joery.animatedbottombar.AnimatedBottomBar
             android:id="@+id/animated_bottom_bar"
