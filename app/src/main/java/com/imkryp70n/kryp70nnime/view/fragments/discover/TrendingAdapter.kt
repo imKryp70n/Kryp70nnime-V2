@@ -14,6 +14,7 @@ import com.imkryp70n.kryp70nnime.data.database.BookmarkDatabase
 import com.imkryp70n.kryp70nnime.di.AesteticDialog
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
 import com.imkryp70n.kryp70nnime.model.trending.TrendingItem
+import com.zedlabs.pastelplaceholder.Pastel
 import kotlinx.android.synthetic.main.item_anime_list.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,9 +43,10 @@ class TrendingAdapter (private var listData : List<TrendingItem?>) : RecyclerVie
             tvAnimeTitle.text = item!!.title
             Glide.with(itemView.context)
                 .load(item.image)
+                .placeholder(Pastel.getColorLight())
                 .into(ivAnimeImage)
 
-            ivAnimeImage.setOnClickListener {
+            ivAnimeImage.setOnLongClickListener {
                 val title : String = item.title.toString()
                 val image : String = item.image.toString()
                 val url : String = item.url.toString()
@@ -52,32 +54,49 @@ class TrendingAdapter (private var listData : List<TrendingItem?>) : RecyclerVie
                 val db = Room.databaseBuilder(context, BookmarkDatabase::class.java, "bookmark").build()
 
 
-                try {
-                    GlobalScope.launch {
-                        db.bookmarkDao().insertBookmark(
-                            Bookmark(
-                                title,
-                                url,
-                                image,
-                                episodeId
+                AesteticDialog.sweetWarning(
+                    context,
+                    "Add Bookmark",
+                    "Are you sure to add this bookmark?",
+                    "Yes",
+                    "No",
+                    {
+                        try {
+                            GlobalScope.launch {
+                                db.bookmarkDao().insertBookmark(
+                                    Bookmark(
+                                        title,
+                                        url,
+                                        image,
+                                        episodeId
+                                    )
+                                )
+                                println(
+                                    db.bookmarkDao().getAllBookmark()
+                                )
+                            }
+
+                            AesteticDialog.toasterSuccess(
+                                context,
+                                false,
+                                3000,
+                                "Success",
+                                "Success add to bookmark"
                             )
-                        )
-                        println(
-                            db.bookmarkDao().getAllBookmark()
-                        )
-                    }
-
-                    AesteticDialog.toasterSuccess(
-                        context,
-                        false,
-                        3000,
-                        "Success",
-                        "Success add to bookmark"
-                    )
-                } catch (e: Exception) {
-                    AesteticDialog.toasterError(context,false,5000,"Error","Failed add to bookmark")
-                }
-
+                        } catch (e: Exception) {
+                            AesteticDialog.toasterError(
+                                context,
+                                false,
+                                5000,
+                                "Error",
+                                "Failed add to bookmark"
+                            )
+                        }
+                    },
+                    {
+                        it.dismissWithAnimation()
+                    })
+                true
             }
         }
     }

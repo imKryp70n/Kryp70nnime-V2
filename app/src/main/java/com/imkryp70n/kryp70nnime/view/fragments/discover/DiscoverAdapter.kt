@@ -16,6 +16,7 @@ import com.imkryp70n.kryp70nnime.data.database.BookmarkDatabase
 import com.imkryp70n.kryp70nnime.di.AesteticDialog
 import com.imkryp70n.kryp70nnime.di.Injection
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
+import com.zedlabs.pastelplaceholder.Pastel
 import kotlinx.android.synthetic.main.item_anime_list.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,42 +45,63 @@ class DiscoverAdapter(private var listData: List<ResultsItem?>) :
             item: ResultsItem?
         ) = with(itemView) {
             tvAnimeTitle.text = item?.title
-            Glide.with(context).load(item?.image).into(ivAnimeImage)
-            ivAnimeImage.setOnClickListener {
-                val title : String = item!!.title.toString()
-                val image : String = item.image.toString()
-                val url : String = item.url.toString()
-                val episodeId : String = item.episodeId.toString()
-                val db = Room.databaseBuilder(context, BookmarkDatabase::class.java, "bookmark").build()
+            Glide.with(context)
+                .load(item?.image)
+                .placeholder(Pastel.getColorLight())
+                .into(ivAnimeImage)
+            ivAnimeImage.setOnLongClickListener {
+                val title: String = item!!.title.toString()
+                val image: String = item.image.toString()
+                val url: String = item.url.toString()
+                val episodeId: String = item.episodeId.toString()
+                val db =
+                    Room.databaseBuilder(context, BookmarkDatabase::class.java, "bookmark").build()
 
 
+                AesteticDialog.sweetWarning(
+                    context,
+                    "Add Bookmark",
+                    "Are you sure to add this bookmark?",
+                    "Yes",
+                    "No",
+                    {
+                        try {
+                            GlobalScope.launch {
+                                db.bookmarkDao().insertBookmark(
+                                    Bookmark(
+                                        title,
+                                        url,
+                                        image,
+                                        episodeId
+                                    )
+                                )
+                                println(
+                                    db.bookmarkDao().getAllBookmark()
+                                )
+                            }
 
-                try {
-                    GlobalScope.launch {
-                        db.bookmarkDao().insertBookmark(
-                            Bookmark(
-                                title,
-                                url,
-                                image,
-                                episodeId
+                            AesteticDialog.toasterSuccess(
+                                context,
+                                false,
+                                3000,
+                                "Success",
+                                "Success add to bookmark"
                             )
-                        )
-                        println(
-                            db.bookmarkDao().getAllBookmark()
-                        )
-                    }
+                        } catch (e: Exception) {
+                            AesteticDialog.toasterError(
+                                context,
+                                false,
+                                5000,
+                                "Error",
+                                "Failed add to bookmark"
+                            )
+                        }
+                    },
+                    {
+                        it.dismissWithAnimation()
+                    })
 
-                    AesteticDialog.toasterSuccess(
-                        context,
-                        false,
-                        3000,
-                        "Success",
-                        "Success add to bookmark"
-                    )
-                } catch (e: Exception) {
-                    AesteticDialog.toasterError(context,false,5000,"Error","Failed add to bookmark")
-                }
-
+                true
             }
         }
     }
