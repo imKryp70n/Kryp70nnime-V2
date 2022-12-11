@@ -6,10 +6,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.imkryp70n.kryp70nnime.R
+import com.imkryp70n.kryp70nnime.data.database.Bookmark
+import com.imkryp70n.kryp70nnime.data.database.BookmarkDatabase
+import com.imkryp70n.kryp70nnime.di.AesteticDialog
 import com.imkryp70n.kryp70nnime.model.discovery.ResultsItem
 import com.imkryp70n.kryp70nnime.model.trending.TrendingItem
+import kotlinx.android.synthetic.main.item_anime_list.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TrendingAdapter (private var listData : List<TrendingItem?>) : RecyclerView.Adapter<TrendingAdapter.MViewHolder>() {
 
@@ -30,15 +37,48 @@ class TrendingAdapter (private var listData : List<TrendingItem?>) : RecyclerVie
     }
 
     class MViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvAnimeTitle: TextView = view.findViewById(R.id.tvAnimeTitle)
-        private val ivAnimeImage: ImageView = view.findViewById(R.id.ivAnimeImage)
-        private val tvAnimeStatus: TextView = view.findViewById(R.id.tvAnimeStatus)
-        fun bind(animeValue : TrendingItem?) {
+        fun bind(item : TrendingItem?)  = with(itemView){
 
-            tvAnimeTitle.text = animeValue!!.title
+            tvAnimeTitle.text = item!!.title
             Glide.with(itemView.context)
-                .load(animeValue.image)
+                .load(item.image)
                 .into(ivAnimeImage)
+
+            ivAnimeImage.setOnClickListener {
+                val title : String = item.title.toString()
+                val image : String = item.image.toString()
+                val url : String = item.url.toString()
+                val episodeId : String = item.id.toString()
+                val db = Room.databaseBuilder(context, BookmarkDatabase::class.java, "bookmark").build()
+
+
+                try {
+                    GlobalScope.launch {
+                        db.bookmarkDao().insertBookmark(
+                            Bookmark(
+                                title,
+                                url,
+                                image,
+                                episodeId
+                            )
+                        )
+                        println(
+                            db.bookmarkDao().getAllBookmark()
+                        )
+                    }
+
+                    AesteticDialog.toasterSuccess(
+                        context,
+                        false,
+                        3000,
+                        "Success",
+                        "Success add to bookmark"
+                    )
+                } catch (e: Exception) {
+                    AesteticDialog.toasterError(context,false,5000,"Error","Failed add to bookmark")
+                }
+
+            }
         }
     }
 
